@@ -19,8 +19,6 @@ export async function POST(req) {
     const result = await model.generateContent(prompt);
     console.log(result.response.text());
 
-    // const data = await apiResponse.json();
-
     // Send the response back to the client
     return NextResponse.json({ response: result.response.text() });
   } catch (error) {
