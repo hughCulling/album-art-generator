@@ -8,8 +8,19 @@ export default function TranscribeComponent() {
   const [loading, setLoading] = useState(false);
   const [transcription, setTranscription] = useState("");
 
+    // Maximum file size in bytes (1MB = 1048576 bytes)
+    const MAX_FILE_SIZE = 4.5 * 1048576; // 4.5MB limit
+
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
+        const file = e.target.files[0];
+
+        if (file.size > MAX_FILE_SIZE) {
+            e.target.value = ''; // Reset file input
+            alert(`File size must be less than ${MAX_FILE_SIZE/1048576}MB`);
+            return;
+          }
+
       setAudioFile(e.target.files[0]);
     }
   };
@@ -43,6 +54,7 @@ export default function TranscribeComponent() {
           alert(`Error: ${result.error}`);
         }
       } catch (error) {
+        alert(`Upload failed: ${error.message}`);
         console.error("Error uploading file:", error);
       } finally {
         setLoading(false);
@@ -52,8 +64,10 @@ export default function TranscribeComponent() {
   return (
     <>
       <form onSubmit={handleSubmit}>
+        <p>Maximum file size: {MAX_FILE_SIZE/1048576}MB</p>
         <input type="file" accept="audio/*" onChange={handleFileChange} />
-        <button type="submit">Upload and Transcribe</button>
+        <button type="submit" disabled={!audioFile || loading}>{loading ? "Processing..." : "Upload and Transcribe"}
+        </button>
       </form>
       {loading && <p>Transcribing...</p>}
       {transcription && <PromptComponent transcription={transcription} />}
