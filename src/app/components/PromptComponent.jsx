@@ -13,7 +13,7 @@ export default function PromptComponent(props) {
   return (
     <>
       <div>
-        <h3>Transcription:</h3>
+        <h2>Transcription:</h2>
         <form>
           <textarea
             value={transcription}
