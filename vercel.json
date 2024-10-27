@@ -1,0 +1,8 @@
+{
+  "functions": {
+    "api/transcribe/*.js": {
+      "maxDuration": 10,
+      "memory": 128
+    }
+  }
+}
