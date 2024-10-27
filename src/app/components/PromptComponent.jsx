@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import PredictionComponent from "./PredictionComponent";
 
 export default function PromptComponent(props) {
   const [transcription, setTranscription] = useState(props.transcription);
@@ -48,6 +49,7 @@ export default function PromptComponent(props) {
           <div>
             <h2>Response from Gemini:</h2>
             <p>{response}</p>
+            <PredictionComponent />
           </div>
         )}
       </div>
