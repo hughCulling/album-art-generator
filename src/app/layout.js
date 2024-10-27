@@ -23,6 +23,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <h1>Album Art Generator</h1>
+        <hr />
         {children}
       </body>
     </html>
