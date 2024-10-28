@@ -6,30 +6,35 @@ import PredictionComponent from "./PredictionComponent";
 export default function PromptComponent(props) {
   const [transcription, setTranscription] = useState(props.transcription);
   const [response, setResponse] = useState("");
+  const [keyword, setKeyword] = useState("");
 
   // Handler for transcription text area changes
   const handleTranscriptionChange = (e) => {
     setTranscription(e.target.value);
   };
 
-    // Function to handle form submission
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-    
-        console.log(`transcription = ${JSON.stringify({ transcription })}`);
-    
-        // Send the lyrics to the API route
-        const res = await fetch("/api/gemini", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ transcription }),
-        });
-    
-        const data = await res.json();
-        setResponse(data.response); // Update the state with the API response
-      };
+  const handleKeywordChange = (e) => {
+    setKeyword(e.target.value);
+  };
+
+  // Function to handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log(`transcription = ${JSON.stringify({ transcription })}`);
+
+    // Send the lyrics to the API route
+    const res = await fetch("/api/gemini", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ transcription, keyword }),
+    });
+
+    const data = await res.json();
+    setResponse(data.response); // Update the state with the API response
+  };
 
   return (
     <>
@@ -42,6 +47,12 @@ export default function PromptComponent(props) {
             rows={10}
             cols={50}
           ></textarea>
+          <br />
+          <br />
+          <label>Keyword:</label>
+          <br />
+          <input type="text" value={keyword} onChange={handleKeywordChange} />
+          <br />
           <br />
           <button type="submit">Submit</button>
         </form>

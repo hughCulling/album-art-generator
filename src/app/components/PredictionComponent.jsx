@@ -8,7 +8,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 export default function PredictionComponent() {
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);
- 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("/api/predictions", {
