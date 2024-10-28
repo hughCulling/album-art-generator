@@ -59,8 +59,7 @@ export default function PromptComponent(props) {
         {response && (
           <div>
             <h2>Response from Gemini:</h2>
-            <p>{response}</p>
-            <PredictionComponent />
+            <PredictionComponent response={response} />
           </div>
         )}
       </div>

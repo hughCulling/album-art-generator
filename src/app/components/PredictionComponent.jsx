@@ -1,14 +1,19 @@
-'use client';
- 
+"use client";
+
 import { useState } from "react";
 import Image from "next/image";
- 
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
- 
-export default function PredictionComponent() {
+
+export default function PredictionComponent(props) {
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);
-  
+  const [response, setResponse] = useState(props.response);
+
+  const handleResponseChange = (e) => {
+    setResponse(e.target.value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await fetch("/api/predictions", {
@@ -26,7 +31,7 @@ export default function PredictionComponent() {
       return;
     }
     setPrediction(prediction);
- 
+
     while (
       prediction.status !== "succeeded" &&
       prediction.status !== "failed"
@@ -42,27 +47,24 @@ export default function PredictionComponent() {
       setPrediction(prediction);
     }
   };
- 
+
   return (
     <div className="container max-w-2xl mx-auto p-5">
-      <h1 className="py-6 text-center font-bold text-2xl">
-        Dream something with Flux
-      </h1>
- 
       <form className="w-full flex" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          className="flex-grow"
+        <textarea
+          value={response}
+          onChange={handleResponseChange}
           name="prompt"
-          placeholder="Enter a prompt to display an image"
-        />
+          rows={10}
+          cols={50}
+        ></textarea>
         <button className="button" type="submit">
           Go!
         </button>
       </form>
- 
+
       {error && <div>{error}</div>}
- 
+
       {prediction && (
         <>
           {prediction.output && (
