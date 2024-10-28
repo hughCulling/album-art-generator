@@ -18,11 +18,12 @@ export async function POST(request) {
     );
   }
 
-  const { prompt } = await request.json();
+  const body = await request.json();
+  const { prompt, hfLora } = body;
 
   const options = {
     version: "091495765fa5ef2725a175a57b276ec30dc9d39c22d30410f2ede68a3eab66b3",
-    input: { prompt, hf_lora: "hwc-02/hugh-lora" },
+    input: { prompt, hf_lora: `${hfLora}` },
   };
 
   if (WEBHOOK_HOST) {

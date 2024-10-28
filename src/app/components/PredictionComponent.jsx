@@ -9,9 +9,14 @@ export default function PredictionComponent(props) {
   const [prediction, setPrediction] = useState(null);
   const [error, setError] = useState(null);
   const [response, setResponse] = useState(props.response);
+  const [hfLora, setHfLora] = useState("");
 
   const handleResponseChange = (e) => {
     setResponse(e.target.value);
+  };
+
+  const handleHfLoraChange = (e) => {
+    setHfLora(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -23,6 +28,7 @@ export default function PredictionComponent(props) {
       },
       body: JSON.stringify({
         prompt: e.target.prompt.value,
+        hfLora: hfLora,
       }),
     });
     let prediction = await response.json();
@@ -58,6 +64,13 @@ export default function PredictionComponent(props) {
           rows={10}
           cols={50}
         ></textarea>
+        <br />
+        <br />
+        <label>HF LoRA:</label>
+        <br />
+        <input type="text" value={hfLora} onChange={handleHfLoraChange} />
+        <br />
+        <br />
         <button className="button" type="submit">
           Go!
         </button>
